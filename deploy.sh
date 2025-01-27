@@ -4,9 +4,8 @@ PROJECT=$1
 IMAGE=""
 CONTAINER=""
 PORT=""
-getProject $PROJECT
 
-function getProject {
+getProject () {
   case "$1" in
     "portfolio-client")
       $IMAGE="portfolio-c"
@@ -36,7 +35,7 @@ function getProject {
   esac
 }
 
-function update {
+update () {
   ssh git@github.com
   git switch main
   git fetch origin
@@ -44,8 +43,10 @@ function update {
   git clean -fd
 }
 
-function buildAndDeploy {
+buildAndDeploy () {
   docker stop $CONTAINER
   docker build -t $IMAGE:latest
   docker run -p $PORT:$PORT -d --name $CONTAINER $IMAGE
 }
+
+getProject $PROJECT
