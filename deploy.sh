@@ -8,18 +8,18 @@ PORT=""
 getProject () {
   case "$1" in
     "portfolio-client")
-      $IMAGE="portfolio-c"
-      $CONTAINER="portfolio-container"
-      $PORT="3000"
+      IMAGE="portfolio-c"
+      CONTAINER="portfolio-container"
+      PORT="3000"
 
       cd portfolio/client
       update
       buildAndDeploy
     ;;
     "portfolio-server")
-      $IMAGE="portfolio-s"
-      $CONTAINER="portfolio-server"
-      $PORT="3001"
+      IMAGE="portfolio-s"
+      CONTAINER="portfolio-server"
+      PORT="3001"
       
       cd portfolio/server
       update
@@ -45,7 +45,8 @@ update () {
 
 buildAndDeploy () {
   docker stop $CONTAINER
-  docker build -t $IMAGE:latest
+  docker rm $CONTAINER
+  docker build -t $IMAGE:latest .
   docker run -p $PORT:$PORT -d --name $CONTAINER $IMAGE
 }
 
